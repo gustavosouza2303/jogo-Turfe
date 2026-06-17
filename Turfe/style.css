@@ -92,3 +92,147 @@ body {
 #divConfig #select_qtdCavalo:hover {
     background: #4b311c;
 }
+
+#hud {
+    color: whitesmoke;
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+    top: 590px;
+    left: 250px;
+    font-size: 50px
+}
+
+#pista {
+    position: relative;
+    width: 100%;
+    top: 315px;
+    overflow: hidden;
+}
+
+.lane {
+    position: relative;
+    width: 90%;
+    height: 48px;
+}
+
+.cavalo {
+    display: flex;
+    position: relative;  
+    align-items: center;
+    gap: 10px;
+    left: 20px;
+    font-size: 18px;
+    color: whitesmoke;
+}
+
+.cavalo img{
+    width: 60px;
+}
+
+#contagem {
+    position: fixed;
+    top: 5%;
+    left: 45%;
+
+    width: 100px;
+    height: 100px;
+}
+
+#imgContador {
+    width: 200px;
+}
+
+#contador {
+    position: absolute;
+    top: 75%;
+    left: 85%;
+    color: whitesmoke;
+    font-size: 55px;
+    z-index: 2;
+}
+
+#podio {
+    display: block;
+    justify-self: center;
+    align-self: center;
+    color: whitesmoke;
+    position: relative;
+}
+
+#podio #p1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: whitesmoke;
+    position: relative;
+    top: 200px;
+}
+
+#podio #p1 #textoP1 {
+    display: flex;
+    flex-direction: column;
+    font-size: 30px;
+    position: relative;
+    top: 280px;
+}
+
+#podio #p2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: whitesmoke;
+    position: relative;
+    bottom: 60px;
+    right: 370px;
+}
+
+#podio #p2 #textoP2 {
+    display: flex;
+    flex-direction: column;
+    font-size: 30px;
+    position: relative;
+    top: 120px;
+}
+
+#podio #p3 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: whitesmoke;
+    position: relative;
+    bottom: 480px;
+    left: 350px;
+}
+
+#podio #p3 #textoP3 {
+    display: flex;
+    flex-direction: column;
+    font-size: 30px;
+    position: relative;
+    top: 120px;
+}
+
+#tabelaResultados {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+  color: white;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 250px;
+}
+
+#tabelaResultados table {
+  border-collapse: collapse;
+  width: 80%;
+  font-size: 35px;
+  background: rgba(0,0,0,0.4);
+}
+
+#tabelaResultados th,
+#tabelaResultados td {
+  border: 1px solid white;
+  padding: 10px;
+  text-align: center;
+}

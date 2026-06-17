@@ -8,25 +8,22 @@
     <script src="script.js" defer></script>
     <style>
         body {
-    height: 90vh;
-    background-image: url("img/corrida.png");
-    background-size: cover;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background-image: url("img/podio.png");
+    background-size: 100%;
     background-position: center;
     background-repeat: no-repeat;
+    overflow: auto;
+    background-color: #1a120b;
 }
     </style>
 </head>
-<body onload="intervalo()">
-    
-    <div id="pista"></div>
-    
-    <div id="hud">
-        <span id="voltaAtual">0</span>/7
+<body onload="podio()">
+    <div id="podio">
     </div>
 
-    <div id="contagem">
-        <img src="./img/contador.png" id="imgContador">
-        <span id="contador">3</span>
-    </div>
+    <div id="tabelaResultados"></div>
 </body>
 </html>
