@@ -93,14 +93,26 @@ body {
     background: #4b311c;
 }
 
+#divConfig input {
+    width: 250px;
+    padding: 12px 15px;
+    font-size: 18px;
+    background-color: #3d2614;
+    color: #f8d77a;
+    border: 3px solid #8b5a2b;
+    border-radius: 6px;
+    outline: none;
+    text-align: center;
+}
+
 #hud {
     color: whitesmoke;
-    position: relative;
+    position: fixed;
     width: fit-content;
     height: fit-content;
-    top: 590px;
+    top: 870px;
     left: 250px;
-    font-size: 50px
+    font-size: 60px
 }
 
 #pista {
@@ -166,7 +178,8 @@ body {
     align-items: center;
     color: whitesmoke;
     position: relative;
-    top: 200px;
+    top: 250px;
+    right: 15px;
 }
 
 #podio #p1 #textoP1 {
@@ -174,7 +187,7 @@ body {
     flex-direction: column;
     font-size: 30px;
     position: relative;
-    top: 280px;
+    top: 265px;
 }
 
 #podio #p2 {
@@ -183,8 +196,8 @@ body {
     align-items: center;
     color: whitesmoke;
     position: relative;
-    bottom: 60px;
-    right: 370px;
+    bottom: 25px;
+    right: 360px;
 }
 
 #podio #p2 #textoP2 {
@@ -199,10 +212,10 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: whitesmoke;
+    color: rgb(252, 222, 222);
     position: relative;
-    bottom: 480px;
-    left: 350px;
+    bottom: 410px;
+    left: 330px;
 }
 
 #podio #p3 #textoP3 {
@@ -210,7 +223,7 @@ body {
     flex-direction: column;
     font-size: 30px;
     position: relative;
-    top: 120px;
+    top: 85px;
 }
 
 #tabelaResultados {
@@ -221,6 +234,11 @@ body {
   flex-direction: column;
   align-items: center;
   padding-bottom: 250px;
+}
+
+#tabelaResultados h2 {
+    font-size: 50px;
+    margin-bottom: 10px;
 }
 
 #tabelaResultados table {

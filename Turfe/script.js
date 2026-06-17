@@ -32,13 +32,13 @@ function adicionar() {
   });
 
   qtdAdd++;
-
+  
   if (qtdAdd > qtdCavalos) {
     localStorage.setItem("cavalos", JSON.stringify(listaCavalos));
     window.location.href = "./corrida.html";
     return;
   }
-
+  ipt_nomeC.value = "";
   spanQtd.innerText = qtdAdd;
 }
 
@@ -52,9 +52,9 @@ listaCavalos = JSON.parse(localStorage.getItem("cavalos")) || [];
 
 let pista = document.getElementById("pista");
 
-if (pista) {
-  for (let i = 0; i < listaCavalos.length; i++) {
-    pista.innerHTML += `
+
+for (let i = 0; i < listaCavalos.length; i++) {
+  pista.innerHTML += `
       <div class="lane">
         <div class="cavalo" id="c${i}">
           <img src="./img/cavalo${i}.png">
@@ -62,20 +62,21 @@ if (pista) {
         </div>
       </div>
     `;
-  }
 }
+
 
 var voltaAtual = 0;
 
 
 document.getElementById("voltaAtual").innerText = voltaAtual;
 
-const MAX_POS = window.innerWidth - 100;
+const posicaoMaxima = window.innerWidth - 100;  // para nao deixar que os cavalos passem da tela deixando um gap de 100px
 
 function proximaVolta() {
   if (voltaAtual >= 7) {
     atualizarPista()
     clearInterval(intervaloCorrida);
+    localStorage.setItem("cavalos", JSON.stringify(listaCavalos));
     localStorage.setItem("vencedores", JSON.stringify(listaVencedores));
     alert("Corrida finalizada");
     setTimeout(() => {
@@ -94,9 +95,13 @@ function proximaVolta() {
     listaCavalos[i].tempoTotal += tempo;
 
     let pista = document.getElementById("pista");
+    /* a do pos basicamente transforma o tempo em posicao para qie ps cavalos andem na tela 
+    pos = tempoTotal × largura total / partes da pista 
+    (o "partes da pista" seria basicamente como dividir os 1920px de largura da pista por 60 que daria 32px, ou seja quanto maior a divisao menos o cavalo anda)
+    */
     let pos = listaCavalos[i].tempoTotal * (pista.offsetWidth / 60);
 
-    listaCavalos[i].posicao = Math.min(pos, MAX_POS);
+    listaCavalos[i].posicao = Math.min(pos, posicaoMaxima); // pega o menor valor, estao se a pos passar de 1820px ele vai pegar a referencia o posicaoMaxima
   }
 
   atualizarPista();
@@ -223,4 +228,33 @@ function podio() {
     `;
   }
 
+  let listaCavalos = JSON.parse(localStorage.getItem("cavalos")) || [];
+
+  let tabelaDiv = document.getElementById("tabelaResultados");
+
+  let tabelaHTML = `
+  <h2>Resumo da corrida</h2>
+  <table>
+    <tr>
+      <th>Posição</th>
+      <th>Nome</th>
+      <th>Tempo total</th>
+    </tr>
+`;
+
+  for (let i = 0; i < listaCavalos.length; i++) {
+    tabelaHTML += `
+    <tr>
+      <td>${i + 1}</td>
+      <td>${listaCavalos[i].nome}</td>
+      <td>${Number(listaCavalos[i].tempoTotal).toFixed(1)}</td>
+    </tr>
+  `;
+  }
+
+  tabelaHTML += `
+  </table>
+`;
+
+  tabelaDiv.innerHTML = tabelaHTML;
 }
