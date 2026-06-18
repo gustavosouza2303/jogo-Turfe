@@ -67,10 +67,7 @@ for (let i = 0; i < listaCavalos.length; i++) {
 
 var voltaAtual = 0;
 
-
 document.getElementById("voltaAtual").innerText = voltaAtual;
-
-const posicaoMaxima = window.innerWidth - 100;  // para nao deixar que os cavalos passem da tela deixando um gap de 100px
 
 function proximaVolta() {
   if (voltaAtual >= 7) {
