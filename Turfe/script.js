@@ -32,7 +32,7 @@ function adicionar() {
   });
 
   qtdAdd++;
-  
+
   if (qtdAdd > qtdCavalos) {
     localStorage.setItem("cavalos", JSON.stringify(listaCavalos));
     window.location.href = "./corrida.html";
@@ -74,7 +74,7 @@ const posicaoMaxima = window.innerWidth - 100;  // para nao deixar que os cavalo
 
 function proximaVolta() {
   if (voltaAtual >= 7) {
-    atualizarPista()
+    atualizarPista();
     clearInterval(intervaloCorrida);
     localStorage.setItem("cavalos", JSON.stringify(listaCavalos));
     localStorage.setItem("vencedores", JSON.stringify(listaVencedores));
@@ -88,20 +88,26 @@ function proximaVolta() {
   voltaAtual++;
   document.getElementById("voltaAtual").innerText = voltaAtual;
 
+  const larguraPista = pista.offsetWidth - 100;
+  const espacoEntreCavalos = 60;
+
   for (let i = 0; i < listaCavalos.length; i++) {
     let tempo = Number(tempoVolta());
-
     listaCavalos[i].tempo = tempo;
     listaCavalos[i].tempoTotal += tempo;
+  }
 
-    let pista = document.getElementById("pista");
-    /* a do pos basicamente transforma o tempo em posicao para qie ps cavalos andem na tela 
-    pos = tempoTotal × largura total / partes da pista 
-    (o "partes da pista" seria basicamente como dividir os 1920px de largura da pista por 60 que daria 32px, ou seja quanto maior a divisao menos o cavalo anda)
-    */
-    let pos = listaCavalos[i].tempoTotal * (pista.offsetWidth / 60);
+  for (let i = 0; i < listaCavalos.length; i++) {
+    let ranking = 0;
+    for (let j = 0; j < listaCavalos.length; j++) {
+      if (listaCavalos[j].tempoTotal < listaCavalos[i].tempoTotal) {
+        ranking++;
+      }
+    }
 
-    listaCavalos[i].posicao = Math.min(pos, posicaoMaxima); // pega o menor valor, estao se a pos passar de 1820px ele vai pegar a referencia o posicaoMaxima
+    let progressoBase = (voltaAtual / 7) * larguraPista;
+    listaCavalos[i].posicao = progressoBase - (ranking * espacoEntreCavalos);
+    listaCavalos[i].posicao = Math.max(0, listaCavalos[i].posicao);
   }
 
   atualizarPista();
@@ -119,52 +125,32 @@ function atualizarPista() {
       menorTempo = listaCavalos[i].tempoTotal;
     }
   }
+let p1 = null;
+let p2 = null;
+let p3 = null;
 
-  for (let i = 0; i < listaCavalos.length; i++) {
-    let diferenca = (
-      listaCavalos[i].tempoTotal - menorTempo
-    ).toFixed(1);
+for (let i = 0; i < listaCavalos.length; i++) {
+  let atual = listaCavalos[i];
+
+  if (p1 == null || atual.tempoTotal < p1.tempoTotal) {
+    p3 = p2;
+    p2 = p1;
+    p1 = atual;
   }
-
-  let p1 = listaCavalos[0];
-  let p2 = null;
-  let p3 = null;
-
-  for (let i = 0; i < listaCavalos.length; i++) {
-    let atual = listaCavalos[i];
-    atual.id = i;
-
-    if (atual.tempoTotal < p1.tempoTotal) {
-      p3 = p2;
-      p2 = p1;
-      p1 = atual;
-    }
-    else if (p2 == null || atual.tempoTotal < p2.tempoTotal) {
-      p3 = p2;
-      p2 = atual;
-    }
-    else if (p3 == null || atual.tempoTotal < p3.tempoTotal) {
-      p3 = atual;
-    }
+  else if (p2 == null || atual.tempoTotal < p2.tempoTotal) {
+    p3 = p2;
+    p2 = atual;
   }
+  else if (p3 == null || atual.tempoTotal < p3.tempoTotal) {
+    p3 = atual;
+  }
+}
 
-  listaVencedores = [];
-  listaVencedores.push({
-    nome: p1.nome,
-    tempoFeito: p1.tempoTotal.toFixed(1),
-    id: p1.id
-  },
-    {
-      nome: p2.nome,
-      tempoFeito: p2.tempoTotal.toFixed(1),
-      id: p2.id
-    },
-    {
-      nome: p3.nome,
-      tempoFeito: p3.tempoTotal.toFixed(1),
-      id: p3.id
-    },
-  )
+listaVencedores = [];
+
+if (p1) listaVencedores.push({ nome: p1.nome, tempoFeito: p1.tempoTotal.toFixed(1), id: listaCavalos.indexOf(p1) });
+if (p2) listaVencedores.push({ nome: p2.nome, tempoFeito: p2.tempoTotal.toFixed(1), id: listaCavalos.indexOf(p2) });
+if (p3) listaVencedores.push({ nome: p3.nome, tempoFeito: p3.tempoTotal.toFixed(1), id: listaCavalos.indexOf(p3) });
 }
 
 let contagem = 4;
@@ -199,62 +185,58 @@ function podio() {
   let posicaoPodio = JSON.parse(localStorage.getItem("vencedores"));
 
   let podioDiv = document.getElementById("podio");
-
   podioDiv.innerHTML = "";
 
-  if (posicaoPodio.length > 0) {
-    podioDiv.innerHTML += `
-      <div id="p1">
-        <img src="img/cavalo${posicaoPodio[0].id}.png" width="350px">
-        <div id="textoP1">
+  if (posicaoPodio[0]) podioDiv.innerHTML += `
+    <div id="p1">
+      <img src="img/cavalo${posicaoPodio[0].id}.png" width="350px">
+      <div id="textoP1">
         <span>Nome: ${posicaoPodio[0].nome}</span>
         <span>Tempo: ${posicaoPodio[0].tempoFeito}</span>
-        </div>
       </div>
-      <div id="p2">
-        <img src="img/cavalo${posicaoPodio[1].id}.png" width="350px">
-        <div id="textoP2">
+    </div>`;
+
+  if (posicaoPodio[1]) podioDiv.innerHTML += `
+    <div id="p2">
+      <img src="img/cavalo${posicaoPodio[1].id}.png" width="350px">
+      <div id="textoP2">
         <span>Nome: ${posicaoPodio[1].nome}</span>
         <span>Tempo: ${posicaoPodio[1].tempoFeito}</span>
-        </div>
       </div>
-      <div id="p3">
-        <img src="img/cavalo${posicaoPodio[2].id}.png" width="350px">
-        <div id="textoP3">
+    </div>`;
+
+  if (posicaoPodio[2]) podioDiv.innerHTML += `
+    <div id="p3">
+      <img src="img/cavalo${posicaoPodio[2].id}.png" width="350px">
+      <div id="textoP3">
         <span>Nome: ${posicaoPodio[2].nome}</span>
         <span>Tempo: ${posicaoPodio[2].tempoFeito}</span>
-        </div>
       </div>
-    `;
-  }
+    </div>`;
 
   let listaCavalos = JSON.parse(localStorage.getItem("cavalos")) || [];
-
   let tabelaDiv = document.getElementById("tabelaResultados");
 
   let tabelaHTML = `
-  <h2>Resumo da corrida</h2>
-  <table>
-    <tr>
-      <th>Posição</th>
-      <th>Nome</th>
-      <th>Tempo total</th>
-    </tr>
-`;
+    <h2>Resumo da corrida</h2>
+    <table>
+      <tr>
+        <th>Posição</th>
+        <th>Nome</th>
+        <th>Tempo total</th>
+      </tr>
+  `;
 
   for (let i = 0; i < listaCavalos.length; i++) {
     tabelaHTML += `
-    <tr>
-      <td>${i + 1}</td>
-      <td>${listaCavalos[i].nome}</td>
-      <td>${Number(listaCavalos[i].tempoTotal).toFixed(1)}</td>
-    </tr>
-  `;
+      <tr>
+        <td>${i + 1}</td>
+        <td>${listaCavalos[i].nome}</td>
+        <td>${Number(listaCavalos[i].tempoTotal).toFixed(1)}</td>
+      </tr>
+    `;
   }
 
-  tabelaHTML += `
-  </table>
-`;
-
+  tabelaHTML += `</table>`;
   tabelaDiv.innerHTML = tabelaHTML;
 }

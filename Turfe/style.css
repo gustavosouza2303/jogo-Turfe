@@ -233,7 +233,7 @@ body {
   color: white;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 250px;
+  padding-bottom: 150px;
 }
 
 #tabelaResultados h2 {
@@ -253,4 +253,28 @@ body {
   border: 1px solid white;
   padding: 10px;
   text-align: center;
+}
+
+#botaoJogarNovamente {
+    display: flex;
+    justify-self: center;
+    position: relative;
+}
+
+#btn_jogar_novamente {
+    width: 500px;
+    height: 200px;
+    background-image: url("./img/botao_jogar_novamente.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 0;
+}
+
+#btn_jogar_novamente:hover {
+    transition: 0.5s;
+    scale: 1.05;
 }
